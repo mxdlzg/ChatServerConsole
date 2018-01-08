@@ -1,0 +1,928 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="C_Group">
+          <Key>
+            <PropertyRef Name="Group_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Max_Number" Type="int" />
+        </EntityType>
+        <EntityType Name="C_Group_Msg_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Multi_Msg_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Msg_Type_ID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="C_Group_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Join_Time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_Msg_Type">
+          <Key>
+            <PropertyRef Name="Msg_Type_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Msg_Type_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Msg_Type_Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="C_Multi_Msg">
+          <Key>
+            <PropertyRef Name="Multi_Msg_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Multi_Msg_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Msg_Content" Type="nvarchar(max)" />
+          <Property Name="Send_Time" Type="nvarchar" MaxLength="50" />
+          <Property Name="From_User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="To_Group_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Msg_Type_ID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="C_Single_Msg">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Single_Msg_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Msg_Content" Type="nvarchar(max)" />
+          <Property Name="Send_Time" Type="nvarchar" MaxLength="50" />
+          <Property Name="From_User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="To_User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Msg_Type_ID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="C_Status">
+          <Key>
+            <PropertyRef Name="Status_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status_Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status_Detail" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="C_User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="255" />
+          <Property Name="City" Type="varchar" MaxLength="255" />
+          <Property Name="User_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="User_Type_ID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="C_User_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="IP" Type="nvarchar" MaxLength="255" />
+          <Property Name="Port" Type="int" />
+          <Property Name="Status_Changed_Time" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="C_User_Type">
+          <Key>
+            <PropertyRef Name="User_Type_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Type_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="cgms2">
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Multi_Msg">
+              <PropertyRef Name="Multi_Msg_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="Multi_Msg_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgms3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgms4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgu1">
+          <End Role="C_Group" Type="Self.C_Group" Multiplicity="0..1" />
+          <End Role="C_Group_User" Type="Self.C_Group_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Group">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="C_Group_User">
+              <PropertyRef Name="Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgu4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Group_User" Type="Self.C_Group_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Group_User">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm2">
+          <End Role="C_Group" Type="Self.C_Group" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Group">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="To_Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="From_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="From_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm5">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="To_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu1">
+          <End Role="C_User_Type" Type="Self.C_User_Type" Multiplicity="0..1" />
+          <End Role="C_User" Type="Self.C_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User_Type">
+              <PropertyRef Name="User_Type_ID" />
+            </Principal>
+            <Dependent Role="C_User">
+              <PropertyRef Name="User_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cus1">
+          <End Role="C_Status" Type="Self.C_Status" Multiplicity="0..1" />
+          <End Role="C_User_Status" Type="Self.C_User_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Status">
+              <PropertyRef Name="Status_ID" />
+            </Principal>
+            <Dependent Role="C_User_Status">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cus4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_User_Status" Type="Self.C_User_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_User_Status">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="password" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ip" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="port" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="password" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="sex" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="city" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="userType" Type="nvarchar" Mode="In" />
+          <Parameter Name="userID" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="ChatDBModelStoreContainer">
+          <EntitySet Name="C_Group" EntityType="Self.C_Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Group_Msg_Status" EntityType="Self.C_Group_Msg_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Group_User" EntityType="Self.C_Group_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Msg_Type" EntityType="Self.C_Msg_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Multi_Msg" EntityType="Self.C_Multi_Msg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Single_Msg" EntityType="Self.C_Single_Msg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Status" EntityType="Self.C_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_User" EntityType="Self.C_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_User_Status" EntityType="Self.C_User_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_User_Type" EntityType="Self.C_User_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="cgms2" Association="Self.cgms2">
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgms3" Association="Self.cgms3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgms4" Association="Self.cgms4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgu1" Association="Self.cgu1">
+            <End Role="C_Group" EntitySet="C_Group" />
+            <End Role="C_Group_User" EntitySet="C_Group_User" />
+          </AssociationSet>
+          <AssociationSet Name="cgu4" Association="Self.cgu4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Group_User" EntitySet="C_Group_User" />
+          </AssociationSet>
+          <AssociationSet Name="cmm2" Association="Self.cmm2">
+            <End Role="C_Group" EntitySet="C_Group" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cmm3" Association="Self.cmm3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cmm4" Association="Self.cmm4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm3" Association="Self.csm3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm4" Association="Self.csm4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm5" Association="Self.csm5">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cu1" Association="Self.cu1">
+            <End Role="C_User_Type" EntitySet="C_User_Type" />
+            <End Role="C_User" EntitySet="C_User" />
+          </AssociationSet>
+          <AssociationSet Name="cus1" Association="Self.cus1">
+            <End Role="C_Status" EntitySet="C_Status" />
+            <End Role="C_User_Status" EntitySet="C_User_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cus4" Association="Self.cus4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_User_Status" EntitySet="C_User_Status" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChatDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_Group">
+          <Key>
+            <PropertyRef Name="Group_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Max_Number" Type="Int32" />
+          <NavigationProperty Name="C_Group_User" Relationship="Self.cgu1" FromRole="C_Group" ToRole="C_Group_User" />
+          <NavigationProperty Name="C_Multi_Msg" Relationship="Self.cmm2" FromRole="C_Group" ToRole="C_Multi_Msg" />
+        </EntityType>
+        <EntityType Name="C_Group_Msg_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Multi_Msg_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Multi_Msg" Relationship="Self.cgms2" FromRole="C_Group_Msg_Status" ToRole="C_Multi_Msg" />
+          <NavigationProperty Name="C_Msg_Type" Relationship="Self.cgms3" FromRole="C_Group_Msg_Status" ToRole="C_Msg_Type" />
+          <NavigationProperty Name="C_User" Relationship="Self.cgms4" FromRole="C_Group_Msg_Status" ToRole="C_User" />
+        </EntityType>
+        <EntityType Name="C_Group_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Join_Time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="C_Group" Relationship="Self.cgu1" FromRole="C_Group_User" ToRole="C_Group" />
+          <NavigationProperty Name="C_User" Relationship="Self.cgu4" FromRole="C_Group_User" ToRole="C_User" />
+        </EntityType>
+        <EntityType Name="C_Msg_Type">
+          <Key>
+            <PropertyRef Name="Msg_Type_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Msg_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Msg_Type_Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Group_Msg_Status" Relationship="Self.cgms3" FromRole="C_Msg_Type" ToRole="C_Group_Msg_Status" />
+          <NavigationProperty Name="C_Multi_Msg" Relationship="Self.cmm3" FromRole="C_Msg_Type" ToRole="C_Multi_Msg" />
+          <NavigationProperty Name="C_Single_Msg" Relationship="Self.csm3" FromRole="C_Msg_Type" ToRole="C_Single_Msg" />
+        </EntityType>
+        <EntityType Name="C_Multi_Msg">
+          <Key>
+            <PropertyRef Name="Multi_Msg_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Multi_Msg_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Msg_Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Send_Time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="From_User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="To_Group_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Group" Relationship="Self.cmm2" FromRole="C_Multi_Msg" ToRole="C_Group" />
+          <NavigationProperty Name="C_Group_Msg_Status" Relationship="Self.cgms2" FromRole="C_Multi_Msg" ToRole="C_Group_Msg_Status" />
+          <NavigationProperty Name="C_Msg_Type" Relationship="Self.cmm3" FromRole="C_Multi_Msg" ToRole="C_Msg_Type" />
+          <NavigationProperty Name="C_User" Relationship="Self.cmm4" FromRole="C_Multi_Msg" ToRole="C_User" />
+        </EntityType>
+        <EntityType Name="C_Single_Msg">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Single_Msg_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg_Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Send_Time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="From_User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="To_User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Msg_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Msg_Type" Relationship="Self.csm3" FromRole="C_Single_Msg" ToRole="C_Msg_Type" />
+          <NavigationProperty Name="C_User" Relationship="Self.csm4" FromRole="C_Single_Msg" ToRole="C_User" />
+          <NavigationProperty Name="C_User1" Relationship="Self.csm5" FromRole="C_Single_Msg" ToRole="C_User" />
+        </EntityType>
+        <EntityType Name="C_Status">
+          <Key>
+            <PropertyRef Name="Status_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status_Detail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_User_Status" Relationship="ChatDBModel.cus1" FromRole="C_Status" ToRole="C_User_Status" />
+        </EntityType>
+        <EntityType Name="C_User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Group_Msg_Status" Relationship="Self.cgms4" FromRole="C_User" ToRole="C_Group_Msg_Status" />
+          <NavigationProperty Name="C_Group_User" Relationship="Self.cgu4" FromRole="C_User" ToRole="C_Group_User" />
+          <NavigationProperty Name="C_Multi_Msg" Relationship="Self.cmm4" FromRole="C_User" ToRole="C_Multi_Msg" />
+          <NavigationProperty Name="C_Single_Msg" Relationship="Self.csm4" FromRole="C_User" ToRole="C_Single_Msg" />
+          <NavigationProperty Name="C_Single_Msg1" Relationship="Self.csm5" FromRole="C_User" ToRole="C_Single_Msg" />
+          <NavigationProperty Name="C_User_Type" Relationship="Self.cu1" FromRole="C_User" ToRole="C_User_Type" />
+          <NavigationProperty Name="C_User_Status" Relationship="ChatDBModel.cus4" FromRole="C_User" ToRole="C_User_Status" />
+        </EntityType>
+        <EntityType Name="C_User_Type">
+          <Key>
+            <PropertyRef Name="User_Type_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Type_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="C_User" Relationship="Self.cu1" FromRole="C_User_Type" ToRole="C_User" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="cgu1">
+          <End Role="C_Group" Type="Self.C_Group" Multiplicity="0..1" />
+          <End Role="C_Group_User" Type="Self.C_Group_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Group">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="C_Group_User">
+              <PropertyRef Name="Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm2">
+          <End Role="C_Group" Type="Self.C_Group" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Group">
+              <PropertyRef Name="Group_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="To_Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgms2">
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Multi_Msg">
+              <PropertyRef Name="Multi_Msg_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="Multi_Msg_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgms3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgms4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Group_Msg_Status" Type="Self.C_Group_Msg_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Group_Msg_Status">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cgu4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Group_User" Type="Self.C_Group_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Group_User">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm3">
+          <End Role="C_Msg_Type" Type="Self.C_Msg_Type" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Msg_Type">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="Msg_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmm4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Multi_Msg" Type="Self.C_Multi_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Multi_Msg">
+              <PropertyRef Name="From_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm4">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="From_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="csm5">
+          <End Role="C_User" Type="Self.C_User" Multiplicity="0..1" />
+          <End Role="C_Single_Msg" Type="Self.C_Single_Msg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_Single_Msg">
+              <PropertyRef Name="To_User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cu1">
+          <End Role="C_User_Type" Type="Self.C_User_Type" Multiplicity="0..1" />
+          <End Role="C_User" Type="Self.C_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User_Type">
+              <PropertyRef Name="User_Type_ID" />
+            </Principal>
+            <Dependent Role="C_User">
+              <PropertyRef Name="User_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChatDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_Group" EntityType="Self.C_Group" />
+          <EntitySet Name="C_Group_Msg_Status" EntityType="Self.C_Group_Msg_Status" />
+          <EntitySet Name="C_Group_User" EntityType="Self.C_Group_User" />
+          <EntitySet Name="C_Msg_Type" EntityType="Self.C_Msg_Type" />
+          <EntitySet Name="C_Multi_Msg" EntityType="Self.C_Multi_Msg" />
+          <EntitySet Name="C_Single_Msg" EntityType="Self.C_Single_Msg" />
+          <EntitySet Name="C_Status" EntityType="Self.C_Status" />
+          <EntitySet Name="C_User" EntityType="Self.C_User" />
+          <EntitySet Name="C_User_Type" EntityType="Self.C_User_Type" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="cgu1" Association="Self.cgu1">
+            <End Role="C_Group" EntitySet="C_Group" />
+            <End Role="C_Group_User" EntitySet="C_Group_User" />
+          </AssociationSet>
+          <AssociationSet Name="cmm2" Association="Self.cmm2">
+            <End Role="C_Group" EntitySet="C_Group" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cgms2" Association="Self.cgms2">
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgms3" Association="Self.cgms3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgms4" Association="Self.cgms4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Group_Msg_Status" EntitySet="C_Group_Msg_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cgu4" Association="Self.cgu4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Group_User" EntitySet="C_Group_User" />
+          </AssociationSet>
+          <AssociationSet Name="cmm3" Association="Self.cmm3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm3" Association="Self.csm3">
+            <End Role="C_Msg_Type" EntitySet="C_Msg_Type" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cmm4" Association="Self.cmm4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Multi_Msg" EntitySet="C_Multi_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm4" Association="Self.csm4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="csm5" Association="Self.csm5">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_Single_Msg" EntitySet="C_Single_Msg" />
+          </AssociationSet>
+          <AssociationSet Name="cu1" Association="Self.cu1">
+            <End Role="C_User_Type" EntitySet="C_User_Type" />
+            <End Role="C_User" EntitySet="C_User" />
+          </AssociationSet>
+          <FunctionImport Name="Register" ReturnType="Collection(String)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="sex" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="userType" Mode="In" Type="String" />
+            <Parameter Name="userID" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserRegister" ReturnType="Collection(ChatDBModel.UserRegister_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="sex" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="userType" Mode="In" Type="String" />
+            <Parameter Name="userID" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Login" ReturnType="Collection(Int32)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="ip" Mode="In" Type="String" />
+            <Parameter Name="port" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="C_User_Status" EntityType="ChatDBModel.C_User_Status" />
+          <AssociationSet Name="cus1" Association="ChatDBModel.cus1">
+            <End Role="C_Status" EntitySet="C_Status" />
+            <End Role="C_User_Status" EntitySet="C_User_Status" />
+          </AssociationSet>
+          <AssociationSet Name="cus4" Association="ChatDBModel.cus4">
+            <End Role="C_User" EntitySet="C_User" />
+            <End Role="C_User_Status" EntitySet="C_User_Status" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="Register_Result">
+          <Property Type="String" Name="Column1" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UserRegister_Result">
+          <Property Type="String" Name="User_ID" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ERROR_CODE" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="C_User_Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="Int32" />
+          <Property Name="Status_Changed_Time" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Status" Relationship="ChatDBModel.cus1" FromRole="C_User_Status" ToRole="C_Status" />
+          <NavigationProperty Name="C_User" Relationship="ChatDBModel.cus4" FromRole="C_User_Status" ToRole="C_User" />
+        </EntityType>
+        <Association Name="cus1">
+          <End Type="ChatDBModel.C_Status" Role="C_Status" Multiplicity="0..1" />
+          <End Type="ChatDBModel.C_User_Status" Role="C_User_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Status">
+              <PropertyRef Name="Status_ID" />
+            </Principal>
+            <Dependent Role="C_User_Status">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cus4">
+          <End Type="ChatDBModel.C_User" Role="C_User" Multiplicity="0..1" />
+          <End Type="ChatDBModel.C_User_Status" Role="C_User_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_User">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="C_User_Status">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChatDBModelStoreContainer" CdmEntityContainer="ChatDBEntities">
+          <EntitySetMapping Name="C_Group">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Group">
+              <MappingFragment StoreEntitySet="C_Group">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Group_ID" ColumnName="Group_ID" />
+                <ScalarProperty Name="Max_Number" ColumnName="Max_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Group_Msg_Status">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Group_Msg_Status">
+              <MappingFragment StoreEntitySet="C_Group_Msg_Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Multi_Msg_ID" ColumnName="Multi_Msg_ID" />
+                <ScalarProperty Name="Msg_Type_ID" ColumnName="Msg_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Group_User">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Group_User">
+              <MappingFragment StoreEntitySet="C_Group_User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Group_ID" ColumnName="Group_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Join_Time" ColumnName="Join_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Msg_Type">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Msg_Type">
+              <MappingFragment StoreEntitySet="C_Msg_Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Msg_Type_ID" ColumnName="Msg_Type_ID" />
+                <ScalarProperty Name="Msg_Type_Description" ColumnName="Msg_Type_Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Multi_Msg">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Multi_Msg">
+              <MappingFragment StoreEntitySet="C_Multi_Msg">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Multi_Msg_ID" ColumnName="Multi_Msg_ID" />
+                <ScalarProperty Name="Msg_Content" ColumnName="Msg_Content" />
+                <ScalarProperty Name="Send_Time" ColumnName="Send_Time" />
+                <ScalarProperty Name="From_User_ID" ColumnName="From_User_ID" />
+                <ScalarProperty Name="To_Group_ID" ColumnName="To_Group_ID" />
+                <ScalarProperty Name="Msg_Type_ID" ColumnName="Msg_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Single_Msg">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Single_Msg">
+              <MappingFragment StoreEntitySet="C_Single_Msg">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Single_Msg_ID" ColumnName="Single_Msg_ID" />
+                <ScalarProperty Name="Msg_Content" ColumnName="Msg_Content" />
+                <ScalarProperty Name="Send_Time" ColumnName="Send_Time" />
+                <ScalarProperty Name="From_User_ID" ColumnName="From_User_ID" />
+                <ScalarProperty Name="To_User_ID" ColumnName="To_User_ID" />
+                <ScalarProperty Name="Msg_Type_ID" ColumnName="Msg_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Status">
+            <EntityTypeMapping TypeName="ChatDBModel.C_Status">
+              <MappingFragment StoreEntitySet="C_Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+                <ScalarProperty Name="Status_Name" ColumnName="Status_Name" />
+                <ScalarProperty Name="Status_Detail" ColumnName="Status_Detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_User">
+            <EntityTypeMapping TypeName="ChatDBModel.C_User">
+              <MappingFragment StoreEntitySet="C_User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="User_Type_ID" ColumnName="User_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_User_Type">
+            <EntityTypeMapping TypeName="ChatDBModel.C_User_Type">
+              <MappingFragment StoreEntitySet="C_User_Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="User_Type_ID" ColumnName="User_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ChatDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Register" FunctionName="ChatDBModel.Store.Register" />
+          <FunctionImportMapping FunctionImportName="UserRegister" FunctionName="ChatDBModel.Store.Register">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ChatDBModel.UserRegister_Result">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="ERROR_CODE" ColumnName="ERROR_CODE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Login" FunctionName="ChatDBModel.Store.Login" />
+          <EntitySetMapping Name="C_User_Status">
+            <EntityTypeMapping TypeName="ChatDBModel.C_User_Status">
+              <MappingFragment StoreEntitySet="C_User_Status">
+                <ScalarProperty Name="Status_Changed_Time" ColumnName="Status_Changed_Time" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

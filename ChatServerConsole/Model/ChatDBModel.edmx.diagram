@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f7d7ec1b9494133947ebb64b7d2619d" Name="Diagram1">
+        <EntityTypeShape EntityType="ChatDBModel.C_Group" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Group_Msg_Status" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Group_User" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Msg_Type" Width="1.5" PointX="6" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Multi_Msg" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Single_Msg" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Status" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_User" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.C_User_Type" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ChatDBModel.cgu1" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cmm2" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cgms2" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cgms3" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cgms4" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cgu4" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cmm3" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.csm3" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cmm4" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.csm4" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.csm5" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDBModel.cu1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ChatDBModel.C_User_Status" Width="1.5" PointX="8.25" PointY="4.625" />
+        <AssociationConnector Association="ChatDBModel.cus1" />
+        <AssociationConnector Association="ChatDBModel.cus4" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
