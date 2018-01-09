@@ -43,10 +43,19 @@ namespace ChatServerConsole
         }
     }
 
+    public class SendObject:StateObject
+    {
+        public Event_Type EventType { get; set; }
+        public Client Client { get; set; }
+        public object RawContent { get; set; }
+        public bool Success { get; set; }
+    }
+
+
     public class SocketListen
     {
         public static ManualResetEvent AllDone = new ManualResetEvent(false);
-        private static List<Client> Clients;
+        public static List<Client> Clients { get; set; }
         private static readonly string[] eofArr =  { "<EOF>" };
         private const string eof = "<EOF>";
         private static bool IsRunning = true;
@@ -339,6 +348,60 @@ namespace ChatServerConsole
             
         }
 
+        public static void Send(Socket handler, string content, SendObject sendObject)
+        {
+            //bytes
+            byte[] bytes = Encoding.UTF8.GetBytes(content + eof);
+
+            //Send
+            if (handler.Connected)
+            {
+                //send async,使用sendObject传递，可以在发送成功之后执行指定的动作
+                handler.BeginSend(bytes, 0, bytes.Length, 0, new AsyncCallback(SendEditCallback), sendObject);
+
+                //Log
+                Log.Info(content + " <" + bytes.Length + ">", sendObject.Client.LogSource);
+            }
+            else
+            {
+                //remove client
+                CloseSocket(sendObject.Client);
+
+                //Log
+                Log.Warn("socket closed by client side", sendObject.Client.LogSource);
+            }
+        }
+
+        private static void SendEditCallback(IAsyncResult ar)
+        {
+            try
+            {
+                SendObject sendObject = (SendObject) ar.AsyncState;
+
+                int bytesSent = sendObject.Client.Socket.EndSend(ar);
+                if (bytesSent > 0)
+                {
+                    //handler
+                    ServerEventHandler.DespatchEvent(new ServerEvent() {CallbackType = sendObject.EventType,CallbackState = sendObject.RawContent,CallbackSuccess = true});
+
+                    //Log
+                    Log.Info("send bytes " + bytesSent, sendObject.Client.LogSource);
+                }
+                else
+                {
+                    //handler
+                    ServerEventHandler.DespatchEvent(new ServerEvent() { CallbackType = sendObject.EventType, CallbackState = sendObject.RawContent, CallbackSuccess = false });
+
+                    //Log
+                    Log.Warn("send fail, bytes " + bytesSent, sendObject.Client.LogSource);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+            }
+        }
+
         /// <summary>
         /// call after send
         /// </summary>
@@ -351,8 +414,17 @@ namespace ChatServerConsole
                 
                 int bytesSent = client.Socket.EndSend(ar);
 
-                //Log
-                Log.Info("send bytes " + bytesSent, client.LogSource);
+                if (bytesSent>0)
+                {
+                    //Log
+                    Log.Info("send bytes " + bytesSent, client.LogSource);
+                }
+                else
+                {
+                    //Log
+                    Log.Warn("send fail, bytes " + bytesSent, client.LogSource);
+                }
+                
 
                 //如果是关闭命令，则关闭此socket
                 if (client.State.Status == StateEnum.ServerStop)

@@ -59,11 +59,14 @@
     <Compile Include="ClientEventHandler.cs" />
     <Compile Include="DBTest.cs" />
     <Compile Include="DB\DBAction.cs" />
+    <Compile Include="DB\DBMsgAction.cs" />
     <Compile Include="DB\DBUserAction.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Model\Arg\BadRequestArgs.cs" />
     <Compile Include="Model\Arg\LoginArgs.cs" />
     <Compile Include="Model\Arg\LogoutArgs.cs" />
+    <Compile Include="Model\Arg\MsgArgs.cs" />
+    <Compile Include="Model\Arg\PublishMsgArgs.cs" />
     <Compile Include="Model\ChatDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +130,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerEventHandler.cs" />
     <Compile Include="SocketListen.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
@@ -155,6 +159,9 @@
       <DependentUpon>ChatDBModel.edmx</DependentUpon>
       <LastGenOutput>ChatDBModel.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Arg\CallbackArg\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,7 +16,8 @@ namespace ChatServerConsole.Model
         SendMessage,
         PublishMessage,
         Unknown,
-        Bad
+        Bad,
+        SendMsgCallback
     }
 
     public class ClientEvent

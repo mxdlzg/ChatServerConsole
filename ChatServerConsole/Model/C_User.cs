@@ -20,9 +20,9 @@ namespace ChatServerConsole.Model
             this.C_Group_Msg_Status = new HashSet<C_Group_Msg_Status>();
             this.C_Group_User = new HashSet<C_Group_User>();
             this.C_Multi_Msg = new HashSet<C_Multi_Msg>();
+            this.C_User_Status = new HashSet<C_User_Status>();
             this.C_Single_Msg = new HashSet<C_Single_Msg>();
             this.C_Single_Msg1 = new HashSet<C_Single_Msg>();
-            this.C_User_Status = new HashSet<C_User_Status>();
         }
     
         public int ID { get; set; }
@@ -39,12 +39,12 @@ namespace ChatServerConsole.Model
         public virtual ICollection<C_Group_User> C_Group_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<C_Multi_Msg> C_Multi_Msg { get; set; }
+        public virtual C_User_Type C_User_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<C_User_Status> C_User_Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<C_Single_Msg> C_Single_Msg { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<C_Single_Msg> C_Single_Msg1 { get; set; }
-        public virtual C_User_Type C_User_Type { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<C_User_Status> C_User_Status { get; set; }
     }
 }

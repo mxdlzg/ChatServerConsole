@@ -32,12 +32,12 @@ namespace ChatServerConsole.Model
         public virtual DbSet<C_Group_User> C_Group_User { get; set; }
         public virtual DbSet<C_Msg_Type> C_Msg_Type { get; set; }
         public virtual DbSet<C_Multi_Msg> C_Multi_Msg { get; set; }
-        public virtual DbSet<C_Single_Msg> C_Single_Msg { get; set; }
         public virtual DbSet<C_Status> C_Status { get; set; }
         public virtual DbSet<C_User> C_User { get; set; }
         public virtual DbSet<C_User_Type> C_User_Type { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<C_User_Status> C_User_Status { get; set; }
+        public virtual DbSet<C_Single_Msg> C_Single_Msg { get; set; }
     
         public virtual ObjectResult<string> Register(string name, string password, string sex, string city, string userType, ObjectParameter userID)
         {
@@ -108,6 +108,31 @@ namespace ChatServerConsole.Model
                 new ObjectParameter("port", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Login", nameParameter, passwordParameter, ipParameter, portParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> AddSingleMsg(string content, string sendTime, string from, string to, string msgType)
+        {
+            var contentParameter = content != null ?
+                new ObjectParameter("content", content) :
+                new ObjectParameter("content", typeof(string));
+    
+            var sendTimeParameter = sendTime != null ?
+                new ObjectParameter("sendTime", sendTime) :
+                new ObjectParameter("sendTime", typeof(string));
+    
+            var fromParameter = from != null ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(string));
+    
+            var toParameter = to != null ?
+                new ObjectParameter("to", to) :
+                new ObjectParameter("to", typeof(string));
+    
+            var msgTypeParameter = msgType != null ?
+                new ObjectParameter("msgType", msgType) :
+                new ObjectParameter("msgType", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("AddSingleMsg", contentParameter, sendTimeParameter, fromParameter, toParameter, msgTypeParameter);
         }
     }
 }

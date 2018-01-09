@@ -72,6 +72,16 @@ namespace ChatServerConsole.Model
             SocketListen.Send(Socket, content, this);
         }
 
+        /// <summary>
+        /// callback中有操作的send方法
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="sendObject"></param>
+        public void Send(string content, SendObject sendObject)
+        {
+            SocketListen.Send(Socket,content,sendObject);
+        }
+
         public static void SendToAll(List<Tuple<IPAddress, int>> list,string content)
         {
             foreach (var tuple in list)

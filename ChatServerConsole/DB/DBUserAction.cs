@@ -37,7 +37,7 @@ namespace ChatServerConsole.DB
         public static DbResult<LoginArgs> Login(string name, string password, string ip, int port)
         {
             ChatDBEntities db = new ChatDBEntities();
-            DbResult<LoginArgs> dbResult = null;
+            DbResult<LoginArgs> dbResult;
             int efResult = (int) db.Login(name, password, ip, port).First();
             if (efResult == DbResult<bool>.LOGIN_SUCCESS)
             {
@@ -73,7 +73,7 @@ namespace ChatServerConsole.DB
             }
 
 
-            return dbResult;
+            return dbResult ?? new DbResult<LogoutArgs>(null);
         }
 
         public static int LogoutIp(string address, int port)
@@ -84,6 +84,23 @@ namespace ChatServerConsole.DB
             db.Entry(cus).State = EntityState.Modified;
             var efResult = db.SaveChanges();
             return efResult;
+        }
+
+        public static DbResult<C_User_Status> GetUserStatus(string toUserId)
+        {
+            ChatDBEntities db = new ChatDBEntities();
+            DbResult<C_User_Status> dbResult = null;
+            var cus = db.C_User_Status.FirstOrDefault(cu => cu.User_ID == toUserId);
+            if (cus != null)
+            {
+                dbResult = new DbResult<C_User_Status>(cus);
+            }
+            return dbResult ?? new DbResult<C_User_Status>(null);
+        }
+
+        public static List<C_User_Status> GetOnlineList(string toGroupId)
+        {
+            
         }
     }
 }

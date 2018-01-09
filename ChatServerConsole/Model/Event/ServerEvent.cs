@@ -13,6 +13,10 @@ namespace ChatServerConsole.Model
         public string RawContent { get; set; }
         public string SendTime { get; set; }
 
+        public Event_Type CallbackType { get; set; }
+        public bool CallbackSuccess { get; set; }
+        public object CallbackState { get; set; }
+
         public static JavaScriptSerializer script = new JavaScriptSerializer();
 
         public ServerEvent()

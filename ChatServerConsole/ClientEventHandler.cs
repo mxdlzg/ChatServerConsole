@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,12 +72,96 @@ namespace ChatServerConsole
 
         private void ExePublishMessage(ClientEvent eEvent)
         {
-            Console.WriteLine("thread" + Thread.CurrentThread.ManagedThreadId + " despatch publish event");
+            //Log
+            Log.Info("thread" + Thread.CurrentThread.ManagedThreadId + " exe publishMessage event", eEvent.Client.LogSource);
+
+            //Arg
+            C_Multi_Msg cMultiMsg = ClientArgs.AnalysisBody<C_Multi_Msg>(eEvent.Body);
+
+            //push msg into table
+            DbResult<PublishMsgArgs> dbResult = DBMsgAction.AddMultiMsg(cMultiMsg);
+
+            //Check DB status
+            if (dbResult.Status == DbEnum.Success)
+            {
+                //Told Client,Server received
+                eEvent.Client.Send(NewEvent(Event_Type.PublishMessage, new PublishMsgArgs() { ErrorCode = 0 }).ToString());
+            }
+            else
+            {
+                //Told Client,服务端收到，但是存储出现错误，将尝试进行分发（只有当前在线的人能收到此消息）
+                eEvent.Client.Send(NewEvent(Event_Type.PublishMessage, new PublishMsgArgs() { ErrorCode = 0 }).ToString());
+            }
+
+            //get current online
+            var addressList = DbUserAction.GetOnlineList(cMultiMsg.To_Group_ID);
+
+            //Publish
+            //var clientList = SocketListen.Clients.Where(c=>c.Address==)
+
+            //DB OP
         }
 
         private void ExeSendMessageEvent(ClientEvent eEvent)
         {
-            Console.WriteLine("thread" + Thread.CurrentThread.ManagedThreadId + " despatch send event");
+            //Log
+            Log.Info("thread" + Thread.CurrentThread.ManagedThreadId + " exe sendMessage event", eEvent.Client.LogSource);
+
+            //Arg
+            C_Single_Msg cSingleMsg = ClientArgs.AnalysisBody<C_Single_Msg>(eEvent.Body);
+            cSingleMsg.Send_Time = eEvent.SendTime;
+
+            //DB OP,将消息插入消息记录表，设置为Unsent状态,返回消息ID（Single_Msg_ID）
+            DbResult<string> msgDbResult = DBMsgAction.AddSingleMsg(cSingleMsg);
+
+            if (msgDbResult.Status == DbEnum.Success)
+            {
+                //Socket Op，告知客户端，服务器已收到消息（尚未进行消息分发）
+                eEvent.Client.Send(NewEvent(Event_Type.SendMessage, new MsgArgs() { SingleMsgId = msgDbResult.Data }).ToString());
+            }
+            else
+            {
+                //Socket Op，告知客户端，服务器已收到消息（但是消息记录失败，将尝试分发，不保证消息可被保存）
+                eEvent.Client.Send(NewEvent(Event_Type.SendMessage, new BadRequestArgs() {Code = msgDbResult.ErrorCode,Message = "消息记录失败，将尝试分发，不保证消息可被保存" }).ToString());
+            }
+
+            //DB OP,查找目标UserID的ip和port，如果在线则发送，否则消息设置为未读
+            DbResult<C_User_Status> cUserStatus = DbUserAction.GetUserStatus(cSingleMsg.To_User_ID);
+
+            //If online
+            if (cUserStatus.Status == DbEnum.Success && cUserStatus.Data.Status_ID=="001")
+            {
+                //OP,查找目标client
+                Client aimClient = SocketListen.FindClient(
+                    new Tuple<IPAddress, int>(System.Net.IPAddress.Parse(cUserStatus.Data.IP),
+                        (int)cUserStatus.Data.Port));
+
+                //lock aim,send message
+                if (aimClient != null)
+                {
+                    lock (aimClient)
+                    {
+                        if (aimClient.Login)
+                        {
+                            aimClient.Send(cSingleMsg.Msg_Content,new SendObject() {Client = aimClient, EventType = Event_Type.SendMsgCallback,RawContent = cSingleMsg}); //发送成功后，消息状态设置为Sent
+                        }
+                    }
+                }
+                else
+                {
+                    //目标用户Socket连接丢失，消息已默认置为Unsent
+                    Log.Warn(cSingleMsg.Msg_Content + $"<exe send error,aim socket {cSingleMsg.To_User_ID} lost>", eEvent.Client.LogSource);
+                }
+            }
+            else
+            {
+                //目标用户离线，消息已默认置为Unsent
+                Log.Warn(cSingleMsg.Msg_Content+ $"<exe send error,aim user {cSingleMsg.To_User_ID} is offline>",eEvent.Client.LogSource);
+            }
+
+           
+
+            
         }
 
         /// <summary>

@@ -21,6 +21,7 @@ namespace ChatServerConsole.Model
         public const int EXIST = -10;
         public const int USER_NOT_FOUND = -11;
         public const int LOGIN_SUCCESS = 20;
+        public const int INSERT_ERROR = -13;
         public const string EXIST_ERROR = "已存在";
 
         public T Data { get; set; }
@@ -31,7 +32,11 @@ namespace ChatServerConsole.Model
         public DbResult(T data)
         {
             this.Data = data;
-            this.Status = DbEnum.Success;
+            this.Status = data == null ? DbEnum.Fail : DbEnum.Success;
+            if (data == null)
+            {
+                Error = "默认错误";
+            }
         }
 
         public DbResult(T data,DbEnum status)

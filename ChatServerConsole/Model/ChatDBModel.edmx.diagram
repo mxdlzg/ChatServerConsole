@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="ChatDBModel.C_Group_User" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatDBModel.C_Msg_Type" Width="1.5" PointX="6" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatDBModel.C_Multi_Msg" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="ChatDBModel.C_Single_Msg" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatDBModel.C_Status" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatDBModel.C_User" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatDBModel.C_User_Type" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
@@ -22,14 +21,15 @@
         <AssociationConnector Association="ChatDBModel.cgms4" ManuallyRouted="false" />
         <AssociationConnector Association="ChatDBModel.cgu4" ManuallyRouted="false" />
         <AssociationConnector Association="ChatDBModel.cmm3" ManuallyRouted="false" />
-        <AssociationConnector Association="ChatDBModel.csm3" ManuallyRouted="false" />
         <AssociationConnector Association="ChatDBModel.cmm4" ManuallyRouted="false" />
-        <AssociationConnector Association="ChatDBModel.csm4" ManuallyRouted="false" />
-        <AssociationConnector Association="ChatDBModel.csm5" ManuallyRouted="false" />
         <AssociationConnector Association="ChatDBModel.cu1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ChatDBModel.C_User_Status" Width="1.5" PointX="8.25" PointY="4.625" />
         <AssociationConnector Association="ChatDBModel.cus1" />
         <AssociationConnector Association="ChatDBModel.cus4" />
+        <EntityTypeShape EntityType="ChatDBModel.C_Single_Msg" Width="1.5" PointX="8.25" PointY="12.75" />
+        <AssociationConnector Association="ChatDBModel.csm3" />
+        <AssociationConnector Association="ChatDBModel.csm4" />
+        <AssociationConnector Association="ChatDBModel.csm5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
